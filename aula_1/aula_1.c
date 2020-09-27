@@ -86,18 +86,6 @@ void* t_insert_odd(void* head) {
 
 int main() {
     struct Node* head = NULL;
-    //head = (struct Node*)malloc(sizeof(struct Node));
-    //head->data = -1;
-    //head->next = NULL;
-    //Fazia parte do enunciado
-    /*
-    struct Node* tail = NULL;
-    tail = (struct Node*)malloc(sizeof(struct Node));
-    head->data=4;
-    head->next=tail;
-    tail->data=7;
-    tail->next=NULL;
-    */
 
     pthread_t t1,t2;
     pthread_create(&t1,NULL,t_insert_even, &head);
