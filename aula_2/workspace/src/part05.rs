@@ -12,9 +12,9 @@ pub struct BigInt {
 impl BigInt {
     pub fn new(x: u64) -> Self {
         if x == 0 {
-            unimplemented!()
+            BigInt { data: vec![] }
         } else {
-            unimplemented!()
+            BigInt { data: vec![x]}
         }
     }
 
@@ -22,7 +22,7 @@ impl BigInt {
         if self.data.len() == 0 {
             true
         } else {
-            unimplemented!()
+            self.data[ self.data.len() - 1 ] != 0
         }
     }
 
@@ -36,7 +36,58 @@ impl BigInt {
     // 
     // *Hint*: You can use `pop` to remove the last element of a vector.
     pub fn from_vec(mut v: Vec<u64>) -> Self {
-        unimplemented!()
+        while v.len()>0 && v[v.len()-1] == 0 {
+            v.pop();
+        }
+
+        let mut v_inv : Vec<u64> = Vec::<u64>::new();
+        
+        for e in v.iter().rev() {
+            v_inv.push( *e );
+        }
+
+        BigInt { data: v_inv }
+    }
+
+    pub fn num_digits(&self) -> i32 {
+        self.data.len() as i32
+    }
+
+    pub fn non_zero_digits(&self) -> i32 {
+        let mut nz = 0;
+        for e in &self.data {
+            if *e != 0 { nz=nz+1 }
+        }
+        nz
+    }
+
+    pub fn largest_digit(&self) -> u64 {
+        let mut ld = 0;
+
+        for e in &self.data {
+            if *e == 9 { return 9 }
+            else if *e>ld { ld = *e }
+        }
+
+        ld
+    }
+
+    pub fn smallest_digit(&self) -> u64 {
+        let mut sd = 9;
+
+        for e in &self.data {
+            if *e == 0 { return 0 }
+            else if *e<sd { sd = *e }
+        }
+
+        sd
+    }
+
+    pub fn print(&self) {
+        for i in &self.data {
+            print!("{} ", *i)
+        }
+        println!()
     }
 }
 
@@ -44,12 +95,18 @@ impl BigInt {
 fn clone_demo() {
     let v = vec![0,1 << 16];
     let b1 = BigInt::from_vec((&v).clone());
-    let b2 = BigInt::from_vec(v);
+    let b2 = BigInt::from_vec((&v).clone());
+    for e in v {
+        print!("{} ", e);
+    }
+    println!();
+    b1.print();
+    b2.print();
 }
 
 impl Clone for BigInt {
     fn clone(&self) -> Self {
-        unimplemented!()
+        BigInt { data: self.data.clone() }
     }
 }
 
@@ -57,7 +114,10 @@ impl Clone for BigInt {
 use part02::{SomethingOrNothing,Something,Nothing};
 impl<T: Clone> Clone for SomethingOrNothing<T> {
     fn clone(&self) -> Self {
-        unimplemented!()
+        match *self {
+            Nothing => Nothing,
+            Something(ref v) => Something(v.clone()),
+        }
     }
 }
 
@@ -80,3 +140,16 @@ fn work_on_variant(mut var: Variant, text: String) {
     *ptr = 1337;
 }
 
+
+
+pub fn main() {
+
+    let mut vec = vec![1,2,3,0,4,5,6,0];
+    let bigint = BigInt::from_vec(vec);
+    bigint.print();
+    bigint.print();
+    println!("Number of digits: {}", bigint.num_digits());
+    println!("Number of non zero digits: {}", bigint.non_zero_digits());
+    println!("Largest digit: {}", bigint.largest_digit());
+    println!("Smallest digit: {}", bigint.smallest_digit());
+}

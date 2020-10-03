@@ -16,8 +16,17 @@ impl BigInt {
         } else if self.data.len() > other.data.len() {
             other
         } else {
-            // **Exercise 06.1**: Fill in this code.
-            unimplemented!()
+            let mut i=0;
+            while i<=self.data.len() {
+                if self.data[i] < other.data[i] {
+                    return self
+                } else if self.data[i] > other.data[i] {
+                    return other
+                } else {
+                    i+=1
+                }
+            }
+            self
         }
     }
 }
@@ -29,7 +38,10 @@ fn vec_min(v: &Vec<BigInt>) -> Option<BigInt> {
     // `iter`, the iterator that borrows the elements.
     for e in v {
         let e = e.clone();
-        unimplemented!()
+        min = Some(match min {
+            None => e,
+            Some(n) => e.min_try1(n), 
+        });
     }
     min
 }
@@ -44,7 +56,7 @@ impl<T: Copy> Copy for SomethingOrNothing<T> {}
 
 fn head<T>(v: &Vec<T>) -> Option<&T> {
     if v.len() > 0 {
-        unimplemented!()
+        Some(&v[0])
     } else {
         None
     }

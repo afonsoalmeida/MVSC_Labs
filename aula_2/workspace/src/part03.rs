@@ -61,11 +61,12 @@ pub fn main() {
 //
 // *Hint*: There is a macro `print!` for printing without appending a newline.
 pub trait Print {
-    /* Add things here */
+    fn print2(self);
 }
+
 impl<T: Print> SomethingOrNothing<T> {
     fn print2(self) {
-        unimplemented!()
+
     }
 }
 
