@@ -7,6 +7,8 @@ struct BinSearch {
     index: i32
 }
 
+/** Binary search to find the element or to find the right index
+(after some arithmetics) to insert the element. */
 fn binary_search(v: &Vec<i32>, mut l: i32, mut r: i32, x: i32) -> BinSearch {
     while l < r { 
         let mut m = (l+r) / 2; 
@@ -27,7 +29,8 @@ fn binary_search(v: &Vec<i32>, mut l: i32, mut r: i32, x: i32) -> BinSearch {
     return BinSearch{found:false, index:(-r)-1}; 
 }
 
-
+/** Prints where the element was found (if it was found) or where it can be inserted
+(if it does not exist). */
 fn print(res: &BinSearch, element: i32) {
     if res.found {
         println!("Found element <{}> at index {}!", element, res.index);
@@ -36,6 +39,7 @@ fn print(res: &BinSearch, element: i32) {
     }
 }
 
+/** Prints the contents of the array. */
 fn print_arr(v: &Vec<i32>) {
     for i in v.iter() {
         print!("{} ", i);
@@ -59,6 +63,7 @@ pub fn main() {
                     let res = binary_search(&x, 0, 8, i);
                     print(&res, i);
                     if !res.found {
+                        //Inserts in array and shifts to the right
                         x.insert(-(res.index+1) as usize, i);
                     }
                     print_arr(&x);
